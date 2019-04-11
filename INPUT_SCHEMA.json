@@ -1,0 +1,16 @@
+{
+  "title": "webdesignernews-scraper",
+  "description": "for test",
+  "type": "object",
+  "schemaVersion": 1,
+  "properties": {
+    "url": {
+      "title": "url",
+      "type": "string",
+      "description": "url to dow",
+      "prefill": "https://www.example.com",
+      "editor": "textfield"
+    }
+  },
+  "required": ["url"]
+}

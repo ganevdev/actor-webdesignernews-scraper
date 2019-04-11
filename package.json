@@ -1,0 +1,66 @@
+{
+  "name": "webdesignernews-scraper",
+  "version": "1.0.0",
+  "description": "webdesignernews-scraper",
+  "homepage": "https://github.com/ganevru/webdesignernews-scraper",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ganevru/webdesignernews-scraper"
+  },
+  "license": "MIT",
+  "author": "Ivan Ganev <iganevru@gmail.com>",
+  "main": "dist/main.js",
+  "types": "dist/main.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "clean": "rimraf dist",
+    "lint": "eslint --fix \"src/**/*.{ts,tsx,js,jsx}\"",
+    "prepublishOnly": "npm run clean && npm run lint && npm run test && npm run build",
+    "pretty": "prettier --write \"src/**/*.{ts,tsx,js,jsx,json}\"",
+    "start": "node dist/main.js",
+    "test": "jest",
+    "watch": "jest --watchAll"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run prepublishOnly && lint-staged"
+    }
+  },
+  "lint-staged": {
+    "src/**/*.{ts,tsx,js,jsx}": [
+      "npm run pretty",
+      "npm run lint",
+      "git add"
+    ]
+  },
+  "dependencies": {
+    "apify": "^0.13.4",
+    "request-promise": "^4.2.4"
+  },
+  "devDependencies": {
+    "@babel/preset-env": "^7.4.3",
+    "@babel/preset-typescript": "^7.3.3",
+    "@types/jest": "^24.0.11",
+    "@types/node": "^11.13.4",
+    "@typescript-eslint/eslint-plugin": "^1.6.0",
+    "@typescript-eslint/parser": "^1.6.0",
+    "@typescript-eslint/typescript-estree": "^1.6.0",
+    "babel-eslint": "^10.0.1",
+    "eslint": "^5.16.0",
+    "eslint-config-prettier": "^4.1.0",
+    "eslint-plugin-import": "^2.16.0",
+    "eslint-plugin-jest": "^22.4.1",
+    "eslint-plugin-prettier": "^3.0.1",
+    "eslint-plugin-promise": "^4.1.1",
+    "eslint-plugin-simple-import-sort": "^3.1.0",
+    "eslint-plugin-sonarjs": "^0.3.0",
+    "eslint-plugin-unicorn": "^8.0.2",
+    "husky": "^1.3.1",
+    "jest": "^24.7.1",
+    "lint-staged": "^8.1.5",
+    "prettier": "^1.16.4",
+    "rimraf": "^2.6.3",
+    "ts-node": "^8.0.3",
+    "typescript": "^3.4.3"
+  }
+}

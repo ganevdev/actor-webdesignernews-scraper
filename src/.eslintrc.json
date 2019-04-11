@@ -1,0 +1,45 @@
+{
+  "parser": "@typescript-eslint/parser",
+  "plugins": [
+    "@typescript-eslint",
+    "prettier",
+    "jest",
+    "unicorn",
+    "simple-import-sort",
+    "import",
+    "promise",
+    "sonarjs"
+  ],
+  "extends": [
+    "plugin:@typescript-eslint/recommended",
+    "plugin:jest/recommended",
+    "plugin:unicorn/recommended",
+    "plugin:promise/recommended",
+    "plugin:sonarjs/recommended",
+    "prettier/@typescript-eslint",
+    "plugin:prettier/recommended"
+  ],
+  "rules": {
+    "simple-import-sort/sort": "error",
+    "sort-imports": "off",
+    "prettier/prettier": "error",
+    "import/first": "error",
+    "import/newline-after-import": "error",
+    "import/no-duplicates": "error",
+    "sonarjs/prefer-single-boolean-return": "off",
+    "sonarjs/no-duplicate-string": "off"
+  },
+  "overrides": [
+    {
+      "files": ["*.test.js", "*.test.ts"],
+      "rules": {
+        "@typescript-eslint/explicit-function-return-type": "off"
+      }
+    }
+  ],
+  "parserOptions": {
+    "sourceType": "module",
+    "useJSXTextNode": true,
+    "project": "./tsconfig.json"
+  }
+}
