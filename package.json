@@ -18,6 +18,7 @@
     "prepublishOnly": "npm run clean && npm run lint && npm run test && npm run build",
     "pretty": "prettier --write \"src/**/*.{ts,tsx,js,jsx,json}\"",
     "start": "node dist/main.js",
+    "local-start": "npm run build && node dist/main.js",
     "test": "jest",
     "watch": "jest --watchAll"
   },
@@ -34,8 +35,7 @@
     ]
   },
   "dependencies": {
-    "apify": "^0.13.4",
-    "request-promise": "^4.2.4"
+    "apify": "^0.13.4"
   },
   "devDependencies": {
     "@babel/preset-env": "^7.4.3",

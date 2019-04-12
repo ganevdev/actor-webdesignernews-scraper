@@ -1,15 +1,32 @@
 {
   "title": "webdesignernews-scraper",
-  "description": "for test",
+  "description": "webdesignernews-scraper",
   "type": "object",
   "schemaVersion": 1,
   "properties": {
     "url": {
-      "title": "url",
+      "title": "URL",
       "type": "string",
-      "description": "url to dow",
-      "prefill": "https://www.example.com",
+      "description": "URL to dow.",
+      "prefill": "https://www.webdesignernews.com",
+      "example": "https://www.webdesignernews.com/category/infographics",
       "editor": "textfield"
+    },
+    "proxyConfiguration": {
+      "title": "Proxy configuration",
+      "type": "object",
+      "description": "Choose to use no proxy, Apify Proxy, or provide custom proxy URLs.",
+      "prefill": { "useApifyProxy": false },
+      "default": {},
+      "editor": "proxy"
+    },
+    "maxPagesPerCrawl": {
+      "title": "Max pages per crawl",
+      "type": "integer",
+      "description": "Maximum number of pages that the crawler will open. 0 means unlimited.",
+      "minimum": 0,
+      "default": 0,
+      "unit": "pages"
     }
   },
   "required": ["url"]

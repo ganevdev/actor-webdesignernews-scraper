@@ -15,6 +15,11 @@ Apify.main(
       handlePageFunction: async ({ request, page }): Promise<void> => {
         const title = await page.title();
         console.log(`Title of ${request.url}: ${title}`);
+        await Apify.pushData({
+          title: title,
+          url: request.url,
+          succeeded: true
+        });
       },
       handleFailedRequestFunction: async ({ request }): Promise<void> => {
         console.log(`Request ${request.url} failed too many times`);
@@ -22,7 +27,8 @@ Apify.main(
           '#debug': Apify.utils.createRequestDebugInfo(request)
         });
       },
-      maxRequestsPerCrawl: 100,
+      maxRequestRetries: 5,
+      maxRequestsPerCrawl: 10000,
       maxConcurrency: 1
     });
 
