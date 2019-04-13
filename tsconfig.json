@@ -4,7 +4,7 @@
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": true,
-    "lib": ["es7"],
+    "lib": ["es6", "es7", "dom", "dom.iterable"],
     "module": "commonjs",
     "target": "esnext",
     "moduleResolution": "node",

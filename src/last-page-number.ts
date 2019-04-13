@@ -9,8 +9,18 @@ export default function lastPageNumber(content: string): number {
   const pagination = new JSDOM(content).window.document.querySelector(
     'div[id="pagination-wrap"] > nav[class="pagination"]'
   );
-  const paginationAllNumbers = [...pagination.querySelectorAll('*')].map(
-    (att: { textContent: string }): number => Number(att.textContent)
-  );
-  return max(paginationAllNumbers);
+  if (pagination) {
+    const paginationAll = [...pagination.querySelectorAll('*')];
+    const paginationAllNumbers = paginationAll
+      .map((att: Element): number => Number(att.textContent))
+      .filter(Boolean);
+    const paginationMax = max(paginationAllNumbers);
+    if (paginationMax) {
+      return paginationMax;
+    } else {
+      return 1;
+    }
+  } else {
+    return 1;
+  }
 }
