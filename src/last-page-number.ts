@@ -1,7 +1,7 @@
 import jsdom from 'jsdom';
 import max from 'lodash/fp/max';
 
-// take the last page number from page body
+// take the last page number from page body, return number
 
 const { JSDOM } = jsdom;
 

@@ -16,7 +16,7 @@
     "clean": "rimraf dist",
     "lint": "eslint --fix \"src/**/*.{ts,tsx,js,jsx}\"",
     "local-start": "npm run clean && npm run build && node dist/main.js",
-    "prepublishOnly": "npm run clean && npm run test && npm run build && npm run pretty && npm run lint",
+    "prepublishOnly": "npm run clean && npm run test && npm run build",
     "pretty": "prettier --write \"src/**/*.{ts,tsx,js,jsx,json}\"",
     "start": "node dist/main.js",
     "test": "jest",
@@ -24,8 +24,20 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "npm run prepublishOnly"
+      "pre-commit": "npm run prepublishOnly && lint-staged"
     }
+  },
+  "lint-staged": {
+    "linters": {
+      "src/**/*.{ts,tsx,js,jsx}": [
+        "npm run pretty",
+        "npm run lint",
+        "git add"
+      ]
+    },
+    "ignore": [
+      "dist/**/*.{ts,tsx,js,jsx}"
+    ]
   },
   "dependencies": {
     "apify": "^0.13.4",
