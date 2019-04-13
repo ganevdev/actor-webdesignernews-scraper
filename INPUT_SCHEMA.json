@@ -12,6 +12,14 @@
       "example": "https://www.webdesignernews.com/category/infographics",
       "editor": "textfield"
     },
+    "paginationPages": {
+      "title": "Max pagination pages",
+      "type": "integer",
+      "description": "Maximum number of pages that the crawler will open. 0 means unlimited.",
+      "minimum": 0,
+      "default": 0,
+      "unit": "pages"
+    },
     "proxyConfiguration": {
       "title": "Proxy configuration",
       "type": "object",
@@ -20,13 +28,13 @@
       "default": {},
       "editor": "proxy"
     },
-    "maxPagesPerCrawl": {
-      "title": "Max pages per crawl",
+    "maxRequestRetries": {
+      "title": "Max request retries",
       "type": "integer",
-      "description": "Maximum number of pages that the crawler will open. 0 means unlimited.",
+      "description": "Maximum number of times the request for the page will be retried in case of an error. Setting it to 0 means that the request will be attempted once and will not be retried if it fails.",
       "minimum": 0,
-      "default": 0,
-      "unit": "pages"
+      "default": 5,
+      "unit": "retries"
     }
   },
   "required": ["url"]
