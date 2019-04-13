@@ -32,6 +32,9 @@
       "npm run pretty",
       "npm run lint",
       "git add"
+    ],
+    "dist/**/*.{ts,tsx,js,jsx}": [
+      "git add"
     ]
   },
   "dependencies": {
