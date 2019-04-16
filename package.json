@@ -28,13 +28,13 @@
     }
   },
   "lint-staged": {
-    "ignore": [
-      "dist/**/*.{ts,tsx,js,jsx}"
-    ],
     "linters": {
       "src/**/*.{ts,tsx,js,jsx}": [
         "npm run pretty",
         "npm run lint",
+        "git add"
+      ],
+      "dist/**/*.{ts,tsx,js,jsx}": [
         "git add"
       ]
     }
