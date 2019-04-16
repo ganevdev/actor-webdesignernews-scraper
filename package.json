@@ -28,29 +28,31 @@
     }
   },
   "lint-staged": {
+    "ignore": [
+      "dist/**/*.{ts,tsx,js,jsx}"
+    ],
     "linters": {
       "src/**/*.{ts,tsx,js,jsx}": [
         "npm run pretty",
         "npm run lint",
         "git add"
       ]
-    },
-    "ignore": [
-      "dist/**/*.{ts,tsx,js,jsx}"
-    ]
+    }
   },
   "dependencies": {
     "apify": "^0.13.4",
-    "jsdom": "^14.0.0",
     "lodash": "^4.17.11"
   },
   "devDependencies": {
     "@babel/preset-env": "^7.4.3",
     "@babel/preset-typescript": "^7.3.3",
+    "@types/expect-puppeteer": "^3.3.1",
     "@types/jest": "^24.0.11",
+    "@types/jest-environment-puppeteer": "^4.0.0",
     "@types/jsdom": "^12.2.3",
     "@types/lodash": "^4.14.123",
     "@types/node": "^11.13.4",
+    "@types/puppeteer": "^1.12.3",
     "@typescript-eslint/eslint-plugin": "^1.6.0",
     "@typescript-eslint/parser": "^1.6.0",
     "@typescript-eslint/typescript-estree": "^1.6.0",
@@ -66,9 +68,10 @@
     "eslint-plugin-unicorn": "^8.0.2",
     "husky": "^1.3.1",
     "jest": "^24.7.1",
-    "jsonfile": "^5.0.0",
+    "jest-puppeteer": "^4.1.1",
     "lint-staged": "^8.1.5",
     "prettier": "^1.16.4",
+    "puppeteer": "^1.14.0",
     "rimraf": "^2.6.3",
     "ts-node": "^8.0.3",
     "typescript": "^3.4.3"

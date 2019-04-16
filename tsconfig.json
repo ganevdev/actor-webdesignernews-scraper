@@ -4,7 +4,7 @@
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": true,
-    "lib": ["es6", "es7", "dom", "dom.iterable"],
+    "lib": ["es5", "es6", "es7", "dom", "dom.iterable"],
     "module": "commonjs",
     "target": "esnext",
     "moduleResolution": "node",
@@ -21,7 +21,8 @@
     "src/**/*.spec.*",
     "node_modules",
     "**/__tests__/*",
-    "**/__mocks__/*"
+    "**/__mocks__/*",
+    "**/__mockData__/*"
   ],
   "include": ["src", "typings"]
 }

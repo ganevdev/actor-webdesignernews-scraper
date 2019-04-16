@@ -1,25 +1,21 @@
-import jsonfile from 'jsonfile';
-
 import lastPageNumber from '../last-page-number';
-
-const webdesignernewsInfographics = jsonfile.readFileSync(
-  __dirname + '/webdesignernews-infographics.json'
-);
-const webdesignernewsMain = jsonfile.readFileSync(
-  __dirname + '/webdesignernews-main.json'
-);
-const webdesignernewsOffbeat41 = jsonfile.readFileSync(
-  __dirname + '/webdesignernews-offbeat-41.json'
-);
+import filePage from '../utils/file-page';
 
 describe('last-page-number', () => {
-  test('lastPageNumber() https://www.webdesignernews.com/category/infographics', () => {
-    expect(lastPageNumber(webdesignernewsInfographics.content)).toEqual(8);
+  test('lastPageNumber() https://www.webdesignernews.com', async () => {
+    await page.goto(filePage('www.webdesignernews.com.html'));
+    expect(await lastPageNumber(page)).toEqual(1513);
   });
-  test('lastPageNumber() https://www.webdesignernews.com', () => {
-    expect(lastPageNumber(webdesignernewsMain.content)).toEqual(1513);
+  test('lastPageNumber() https://www.webdesignernews.com/category/infographics', async () => {
+    await page.goto(
+      filePage('www.webdesignernews.com/category/infographics.html')
+    );
+    expect(await lastPageNumber(page)).toEqual(8);
   });
-  test('lastPageNumber() https://www.webdesignernews.com/category/offbeat/page/41', () => {
-    expect(lastPageNumber(webdesignernewsOffbeat41.content)).toEqual(41);
+  test('lastPageNumber() https://www.webdesignernews.com/category/offbeat/page/41', async () => {
+    await page.goto(
+      filePage('www.webdesignernews.com/category/offbeat/page/41.html')
+    );
+    expect(await lastPageNumber(page)).toEqual(41);
   });
 });

@@ -2,5 +2,7 @@
   "name": "webdesignernews-scraper",
   "version": "0.0",
   "buildTag": "latest",
-  "env": null
+  "env": {
+    "APIFY_HEADLESS": 1
+  }
 }
