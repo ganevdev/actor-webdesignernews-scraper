@@ -42,7 +42,7 @@ async function postElementToObject(
  */
 export default async function scrapPosts(
   page: Page
-): Promise<(Post | undefined)[] | undefined> {
+): Promise<(Post | undefined)[]> {
   const postsBlock = await page.$('div[id="post-rows-block-latest"]');
   if (postsBlock) {
     const divPostsArray = await page.$$('div[class="post-row"]');
@@ -53,5 +53,7 @@ export default async function scrapPosts(
       )
     );
     return postsElement.filter(Boolean);
+  } else {
+    return [];
   }
 }

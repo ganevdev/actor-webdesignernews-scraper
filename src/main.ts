@@ -33,7 +33,7 @@ Apify.main(
       //
       handlePageFunction: async ({ page }): Promise<void> => {
         const pagePosts = await scrapPosts(page);
-        await Apify.pushData(pagePosts);
+        await Apify.pushData([pagePosts]);
       },
       handleFailedRequestFunction: async ({ request }): Promise<void> => {
         await Apify.pushData({
