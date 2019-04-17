@@ -4,8 +4,8 @@
   "type": "object",
   "schemaVersion": 1,
   "properties": {
-    "url": {
-      "title": "URL",
+    "startUrl": {
+      "title": "Start URL",
       "type": "string",
       "description": "URL to dow.",
       "prefill": "https://www.webdesignernews.com",
@@ -37,5 +37,5 @@
       "unit": "retries"
     }
   },
-  "required": ["url"]
+  "required": ["startUrl"]
 }

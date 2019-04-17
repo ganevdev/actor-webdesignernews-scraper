@@ -1,11 +1,11 @@
 {
-  "name": "webdesignernews-scraper",
+  "name": "actor-webdesignernews-scraper",
   "version": "1.0.0",
-  "description": "webdesignernews-scraper",
-  "homepage": "https://github.com/ganevru/webdesignernews-scraper",
+  "description": "actor-webdesignernews-scraper",
+  "homepage": "https://github.com/ganevru/actor-webdesignernews-scraper",
   "repository": {
     "type": "git",
-    "url": "https://github.com/ganevru/webdesignernews-scraper"
+    "url": "https://github.com/ganevru/actor-webdesignernews-scraper"
   },
   "license": "MIT",
   "author": "Ivan Ganev <iganevru@gmail.com>",
@@ -14,8 +14,10 @@
   "scripts": {
     "build": "tsc",
     "clean": "rimraf dist",
+    "apify-storage-clean": "rimraf apify_storage/datasets && rimraf apify_storage/request_queues",
     "lint": "eslint --fix \"src/**/*.{ts,tsx,js,jsx}\"",
     "local-start": "npm run clean && npm run build && node dist/main.js",
+    "local-start-fresh": "npm run apify-storage-clean && npm run local-start",
     "prepublishOnly": "npm run clean && npm run test && npm run build",
     "pretty": "prettier --write \"src/**/*.{ts,tsx,js,jsx,json}\"",
     "start": "node dist/main.js",
