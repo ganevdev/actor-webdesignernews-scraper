@@ -1,4 +1,4 @@
-import max from 'lodash/fp/max';
+import max from 'lodash.max';
 import { Page } from 'puppeteer';
 
 /**

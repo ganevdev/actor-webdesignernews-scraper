@@ -1,13 +1,15 @@
 import { ElementHandle, JSHandle } from 'puppeteer';
 
 async function getAttribute(
-  element: ElementHandle | JSHandle | null | undefined,
+  elementHandle: ElementHandle | JSHandle | null | undefined,
   attribute: string = 'textContent'
 ): Promise<string | undefined> {
-  if (element) {
+  if (elementHandle) {
     try {
-      const property: JSHandle = await element.getProperty(attribute);
-      return (await property.jsonValue()).trim();
+      const property: JSHandle = await elementHandle.getProperty(attribute);
+      if (property) {
+        return (await property.jsonValue()).trim();
+      }
     } catch (error) {
       return undefined;
     }

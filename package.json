@@ -40,7 +40,7 @@
   },
   "dependencies": {
     "apify": "^0.13.4",
-    "lodash": "^4.17.11",
+    "lodash.max": "^4.0.1",
     "typescript": "^3.4.3"
   },
   "devDependencies": {

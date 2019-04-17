@@ -7,6 +7,9 @@ interface Post {
   vote?: number;
   thumb?: string;
   link?: string;
+  source?: string;
+  date?: string;
+  page?: number;
 }
 
 async function postElementToObject(
@@ -26,13 +29,41 @@ async function postElementToObject(
     await postElement.$('div[class="post-thumb"] > a'),
     'href'
   );
+  const source = await getAttribute(
+    await postElement.$('a[class="site-name-lnk"]')
+  );
+  const date = await getAttribute(
+    await postElement.$('span[class="made-popuplar"]')
+  );
   if (title) {
     return {
       title: title,
       vote: vote,
       thumb: thumb,
-      link: link
+      link: link,
+      source: source,
+      date: date
     };
+  }
+}
+
+/**
+ * Get page number and assign it in Post object
+ *
+ */
+async function pageNumberToPost(
+  post: Post | undefined,
+  page: Page
+): Promise<Post | undefined> {
+  if (post) {
+    const pageNumber = await getAttribute(
+      await page.$('nav[class="pagination"] > span[class="current"]')
+    );
+    if (pageNumber) {
+      return Object.assign(post, { page: Number(pageNumber) });
+    } else {
+      return post;
+    }
   }
 }
 
@@ -52,7 +83,14 @@ export default async function scrapPosts(
           await postElementToObject(postElement)
       )
     );
-    return postsElement.filter(Boolean);
+    const postsElementClean = postsElement.filter(Boolean);
+    const postsElementWishPages = await Promise.all(
+      postsElementClean.map(
+        async (postElement: Post | undefined): Promise<Post | undefined> =>
+          await pageNumberToPost(postElement, page)
+      )
+    );
+    return postsElementWishPages;
   } else {
     return [];
   }

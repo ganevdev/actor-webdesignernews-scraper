@@ -27,7 +27,8 @@
     "import/newline-after-import": "warn",
     "import/no-duplicates": "warn",
     "sonarjs/prefer-single-boolean-return": "off",
-    "sonarjs/no-duplicate-string": "off"
+    "sonarjs/no-duplicate-string": "off",
+    "sonarjs/prefer-immediate-return": "off"
   },
   "overrides": [
     {

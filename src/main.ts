@@ -1,5 +1,6 @@
 import Apify from 'apify';
 
+import scrapNextPageUrl from './scrap-next-page-url';
 import scrapPosts from './scrap-posts';
 
 Apify.main(
@@ -20,8 +21,10 @@ Apify.main(
     const crawler = new Apify.PuppeteerCrawler({
       requestQueue,
       //
-      maxRequestRetries: input.maxRequestRetries || 3,
-      maxRequestsPerCrawl: 10000,
+      maxRequestRetries: input.maxRequestRetries ? input.maxRequestRetries : 3,
+      maxRequestsPerCrawl: input.maxRequestsPerCrawl
+        ? input.maxRequestsPerCrawl
+        : 100,
       maxConcurrency: 1,
       //
       launchPuppeteerFunction: async (): Promise<void> =>
@@ -33,6 +36,12 @@ Apify.main(
       //
       handlePageFunction: async ({ page }): Promise<void> => {
         const pagePosts = await scrapPosts(page);
+        const nextPageUrl = await scrapNextPageUrl(page);
+        if (nextPageUrl) {
+          await requestQueue.addRequest({
+            url: nextPageUrl
+          });
+        }
         await Apify.pushData([pagePosts]);
       },
       handleFailedRequestFunction: async ({ request }): Promise<void> => {
