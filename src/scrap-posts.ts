@@ -2,16 +2,6 @@ import { ElementHandle, Page } from 'puppeteer';
 
 import getAttribute from './utils/get-attribute';
 
-interface Post {
-  title: string;
-  vote?: number;
-  thumb?: string;
-  link?: string;
-  source?: string;
-  date?: string;
-  page?: number;
-}
-
 async function postElementToObject(
   postElement: ElementHandle
 ): Promise<Post | undefined> {
@@ -48,26 +38,6 @@ async function postElementToObject(
 }
 
 /**
- * Get page number and assign it in Post object
- *
- */
-async function pageNumberToPost(
-  post: Post | undefined,
-  page: Page
-): Promise<Post | undefined> {
-  if (post) {
-    const pageNumber = await getAttribute(
-      await page.$('nav[class="pagination"] > span[class="current"]')
-    );
-    if (pageNumber) {
-      return Object.assign(post, { page: Number(pageNumber) });
-    } else {
-      return post;
-    }
-  }
-}
-
-/**
  * Scrap posts from webdesignernews.com - return array of objects - Post
  *
  */
@@ -79,18 +49,14 @@ export default async function scrapPosts(
     const divPostsArray = await page.$$('div[class="post-row"]');
     const postsElement = await Promise.all(
       divPostsArray.map(
-        async (postElement: ElementHandle): Promise<Post | undefined> =>
-          await postElementToObject(postElement)
+        async (postElement: ElementHandle): Promise<Post | undefined> => {
+          const postElementObjects = await postElementToObject(postElement);
+          return postElementObjects;
+        }
       )
     );
     const postsElementClean = postsElement.filter(Boolean);
-    const postsElementWishPages = await Promise.all(
-      postsElementClean.map(
-        async (postElement: Post | undefined): Promise<Post | undefined> =>
-          await pageNumberToPost(postElement, page)
-      )
-    );
-    return postsElementWishPages;
+    return postsElementClean;
   } else {
     return [];
   }

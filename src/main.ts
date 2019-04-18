@@ -1,6 +1,6 @@
 import Apify from 'apify';
 
-import scrapNextPageUrl from './scrap-next-page-url';
+// import scrapNextPageUrl from './scrap-next-page-url';
 import scrapPosts from './scrap-posts';
 
 Apify.main(
@@ -13,6 +13,7 @@ Apify.main(
       throw new TypeError('input.startUrl must an string!');
     }
     //
+    // Create urls to scrap
 
     // Create RequestQueue
     const requestQueue = await Apify.openRequestQueue();
@@ -34,15 +35,19 @@ Apify.main(
           liveView: input.liveView ? input.liveView : true
         }),
       //
-      handlePageFunction: async ({ page }): Promise<void> => {
+      handlePageFunction: async ({ page, request }): Promise<void> => {
         const pagePosts = await scrapPosts(page);
-        const nextPageUrl = await scrapNextPageUrl(page);
-        if (nextPageUrl) {
-          await requestQueue.addRequest({
-            url: nextPageUrl
-          });
-        }
-        await Apify.pushData([pagePosts]);
+        // const nextPageUrl = await scrapNextPageUrl(page);
+        // if (nextPageUrl) {
+        //   await requestQueue.addRequest({
+        //     url: nextPageUrl
+        //   });
+        // }
+        // assign requestUrl to awry post
+        const pagePostsFinal = pagePosts.map(
+          (post): Post => Object.assign(post, { requestUrl: request.url })
+        );
+        await Apify.pushData(pagePostsFinal);
       },
       handleFailedRequestFunction: async ({ request }): Promise<void> => {
         await Apify.pushData({
