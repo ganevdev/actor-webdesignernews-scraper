@@ -13,7 +13,7 @@ Apify.main(
       throw new TypeError('input.startUrl must an string!');
     }
     //
-    // Create urls to scrap
+    // Create urls from start url
 
     // Create RequestQueue
     const requestQueue = await Apify.openRequestQueue();
@@ -43,7 +43,7 @@ Apify.main(
         //     url: nextPageUrl
         //   });
         // }
-        // assign requestUrl to awry post
+        // assign requestUrl to post
         const pagePostsFinal = pagePosts.map(
           (post): Post => Object.assign(post, { requestUrl: request.url })
         );

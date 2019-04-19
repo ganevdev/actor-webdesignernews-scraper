@@ -12,6 +12,14 @@
       "example": "https://www.webdesignernews.com/category/infographics",
       "editor": "textfield"
     },
+    "wayToScrape": {
+      "title": "Way to scrape",
+      "type": "string",
+      "description": "Scrape towards older or newer posts",
+      "default": "old",
+      "enum": ["old", "new"],
+      "enumTitles": ["Older", "Newer"]
+    },
     "proxyConfiguration": {
       "title": "Proxy configuration",
       "type": "object",
