@@ -15,7 +15,7 @@
     "wayToScrape": {
       "title": "Way to scrape",
       "type": "string",
-      "description": "Scrape towards older or newer posts",
+      "description": "Scrape towards older or newer posts.",
       "default": "old",
       "enum": ["old", "new"],
       "enumTitles": ["Older", "Newer"]
@@ -43,6 +43,14 @@
       "minimum": 0,
       "default": 5,
       "unit": "retries"
+    },
+    "maxConcurrency": {
+      "title": "Max concurrency",
+      "type": "integer",
+      "description": "Max concurrency",
+      "minimum": 1,
+      "default": 3,
+      "unit": "concurrency"
     }
   },
   "required": ["startUrl"]

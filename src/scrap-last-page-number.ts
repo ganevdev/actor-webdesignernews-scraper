@@ -5,7 +5,7 @@ import { Page } from 'puppeteer';
  * Return number of last page in pagination block
  *
  */
-export default async function lastPageNumber(
+export default async function scrapLastPageNumber(
   pageMain: Page
 ): Promise<number | undefined> {
   const paginationAllNumbers = await pageMain.evaluate(

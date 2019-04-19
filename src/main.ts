@@ -1,9 +1,12 @@
 import Apify from 'apify';
 
+import genUrls from './gen-urls';
+import scrapLastPageNumber from './scrap-last-page-number';
 // import scrapNextPageUrl from './scrap-next-page-url';
 import scrapPosts from './scrap-posts';
 
 Apify.main(
+  /* eslint-disable sonarjs/cognitive-complexity */
   async (): Promise<void> => {
     const input = await Apify.getValue('INPUT');
     //
@@ -14,19 +17,48 @@ Apify.main(
     }
     //
     // Create urls from start url
+    async function genUrlArray(
+      input: Input
+    ): Promise<{ url: string }[] | undefined> {
+      try {
+        if (input.wayToScrape && input.wayToScrape === 'new') {
+          const genUrlsArray = genUrls(input.startUrl);
+          if (genUrlsArray) {
+            return genUrlsArray;
+          }
+        } else {
+          //
+          const browser = await Apify.launchPuppeteer();
+          const page = await browser.newPage();
+          await page.goto(input.startUrl);
+          //
+          const lastPageNumber = await scrapLastPageNumber(page);
+          //
+          const genUrlsArray = genUrls(input.startUrl, lastPageNumber);
+          if (genUrlsArray) {
+            return genUrlsArray;
+          }
+        }
+      } catch (error) {
+        throw new Error(error);
+      }
+    }
 
-    // Create RequestQueue
-    const requestQueue = await Apify.openRequestQueue();
-    await requestQueue.addRequest({ url: input.startUrl });
+    const urlArray = await genUrlArray(input);
+    if (!urlArray) throw new Error('genUrlArray');
+    const requestList = new Apify.RequestList({
+      sources: urlArray
+    });
+    await requestList.initialize();
 
     const crawler = new Apify.PuppeteerCrawler({
-      requestQueue,
+      requestList,
       //
       maxRequestRetries: input.maxRequestRetries ? input.maxRequestRetries : 3,
       maxRequestsPerCrawl: input.maxRequestsPerCrawl
         ? input.maxRequestsPerCrawl
-        : 100,
-      maxConcurrency: 1,
+        : 1000,
+      maxConcurrency: input.maxConcurrency ? input.maxConcurrency : 3,
       //
       launchPuppeteerFunction: async (): Promise<void> =>
         Apify.launchPuppeteer({
@@ -37,13 +69,6 @@ Apify.main(
       //
       handlePageFunction: async ({ page, request }): Promise<void> => {
         const pagePosts = await scrapPosts(page);
-        // const nextPageUrl = await scrapNextPageUrl(page);
-        // if (nextPageUrl) {
-        //   await requestQueue.addRequest({
-        //     url: nextPageUrl
-        //   });
-        // }
-        // assign requestUrl to post
         const pagePostsFinal = pagePosts.map(
           (post): Post => Object.assign(post, { requestUrl: request.url })
         );
@@ -55,7 +80,7 @@ Apify.main(
         });
       }
     });
-
+    //
     await crawler.run();
   }
 );
