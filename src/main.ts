@@ -2,7 +2,6 @@ import Apify from 'apify';
 
 import genUrls from './gen-urls';
 import scrapLastPageNumber from './scrap-last-page-number';
-// import scrapNextPageUrl from './scrap-next-page-url';
 import scrapPosts from './scrap-posts';
 
 Apify.main(
