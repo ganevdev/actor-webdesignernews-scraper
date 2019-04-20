@@ -1,5 +1,5 @@
 interface Post {
-  title: string;
+  title?: string;
   vote?: number;
   thumb?: string;
   link?: string;
@@ -13,5 +13,9 @@ interface Input {
   wayToScrape?: string;
   maxRequestsPerCrawl?: number;
   maxRequestRetries?: number;
+  maxConcurrency?: number;
   liveView?: boolean;
+  proxyConfiguration?: {
+    useApifyProxy?: boolean;
+  };
 }
