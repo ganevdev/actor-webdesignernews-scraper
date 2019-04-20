@@ -18,7 +18,7 @@ It is not necessary to use the [apify.com](https://apify.com) service to use act
 git clone git@github.com:Ganevru/actor-webdesignernews-scraper.git
 ```
 
-Create folder and file `INPUT.json` in the root of project: `apify_storage/key_value_stores/default/INPUT.json`
+Create in the root of project: `apify_storage/key_value_stores/default/INPUT.json`
 
 In `INPUT.json`, write your settings, for example:
 
