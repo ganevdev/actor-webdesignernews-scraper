@@ -1,4 +1,4 @@
-# actor-webdesignernews-scraper
+# Web Designer News - Scraper
 
 [![Build Status](https://travis-ci.com/Ganevru/actor-webdesignernews-scraper.svg?branch=master)](https://travis-ci.com/Ganevru/actor-webdesignernews-scraper)
 
