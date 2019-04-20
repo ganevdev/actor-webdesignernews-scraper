@@ -9,6 +9,7 @@
       "type": "string",
       "description": "URL to dow.",
       "prefill": "https://www.webdesignernews.com",
+      "default": "https://www.webdesignernews.com",
       "example": "https://www.webdesignernews.com/category/infographics",
       "editor": "textfield"
     },
