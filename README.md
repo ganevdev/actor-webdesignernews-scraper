@@ -12,10 +12,12 @@ Only `startUrl` required, for example this could be the main page: `https://www.
 
 ## Local use
 
-It is not necessary to use the [apify.com](https://apify.com) service to use actor. Copy this repository, for example, this way:
+It is not necessary to use the [apify.com](https://apify.com) service to use actor. Copy this repository and install node dependencies, for example, this way:
 
 ```
 git clone git@github.com:Ganevru/actor-webdesignernews-scraper.git
+cd actor-webdesignernews-scraper
+npm install
 ```
 
 Create in the root of project: `apify_storage/key_value_stores/default/INPUT.json`
