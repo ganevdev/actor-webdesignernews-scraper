@@ -1,8 +1,14 @@
 # actor-webdesignernews-scraper
 
-Scraper for www.webdesignernews.com using Apify.
+[![Build Status](https://travis-ci.com/Ganevru/actor-webdesignernews-scraper.svg?branch=master)](https://travis-ci.com/Ganevru/actor-webdesignernews-scraper)
+
+Scraper for www.webdesignernews.com, using Apify.
+
+## Input settings
 
 Only `startUrl` required, by default `https://www.webdesignernews.com`.
+
+`wayToScrape` can be `old` or `new`, by default `old`. If, for example, the starting link is on the third page (`https://webdesignernews.com/page/3` for example), then scraper will scrape the third page, then the fourth page, fifth and so on. But if the `wayToScrape` is `new`, then the third page will be scraped, then the second, and then the first.
 
 ## Local use
 
