@@ -27,11 +27,10 @@ Apify.main(
             return genUrlsArray;
           }
         } else {
-          //
+          // we do not know which page is the last one - so we need to take this information from the start url page
           const browser = await Apify.launchPuppeteer();
           const page = await browser.newPage();
           await page.goto(input.startUrl);
-          //
           const lastPageNumber = await scrapLastPageNumber(page);
           //
           const genUrlsArray = genUrls(input.startUrl, lastPageNumber);
@@ -45,7 +44,8 @@ Apify.main(
     }
 
     const urlArray = await genUrlArray(input);
-    if (!urlArray) throw new Error('genUrlArray');
+    if (!urlArray)
+      throw new Error('unable to create a array of urls to download');
     const requestList = new Apify.RequestList({
       sources: urlArray
     });
@@ -63,6 +63,9 @@ Apify.main(
       launchPuppeteerFunction: async (): Promise<void> =>
         Apify.launchPuppeteer({
           headless: true,
+          useApifyProxy: input.useApifyProxy.useApifyProxy
+            ? input.useApifyProxy.useApifyProxy
+            : false,
           userAgent: await Apify.utils.getRandomUserAgent(),
           liveView: input.liveView ? input.liveView : true
         }),
