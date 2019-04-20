@@ -18,4 +18,5 @@ interface Input {
   proxyConfiguration?: {
     useApifyProxy?: boolean;
   };
+  headless?: boolean;
 }

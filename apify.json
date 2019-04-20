@@ -3,6 +3,6 @@
   "version": "0.0",
   "buildTag": "latest",
   "env": {
-    "APIFY_HEADLESS": 1
+    "APIFY_HEADLESS": 0
   }
 }

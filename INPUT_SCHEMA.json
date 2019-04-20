@@ -52,6 +52,16 @@
       "minimum": 1,
       "default": 3,
       "unit": "concurrency"
+    },
+    "liveView": {
+      "title": "Live View",
+      "type": "boolean",
+      "default": false
+    },
+    "headless": {
+      "title": "headless",
+      "type": "boolean",
+      "default": true
     }
   },
   "required": ["startUrl"]

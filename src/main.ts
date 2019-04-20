@@ -4,6 +4,13 @@ import genUrls from './gen-urls';
 import scrapLastPageNumber from './scrap-last-page-number';
 import scrapPosts from './scrap-posts';
 
+// https://github.com/apifytech/apify-js/blob/master/src/puppeteer_crawler.js#L9
+// modified version of default
+async function gotoFunctionModified({ page, url }): Promise<any> {
+  await Apify.utils.puppeteer.hideWebDriver(page);
+  return await page.goto(url, { timeout: 100000 });
+}
+
 /**
  *  Create urls from start url
  *
@@ -21,12 +28,17 @@ async function genUrlArray(
       // we do not know which page is the last one - so we need to take this information from the start url page
       const browser = await Apify.launchPuppeteer();
       const page = await browser.newPage();
-      await page.goto(input.startUrl);
+      //
+      const url = input.startUrl;
+      await gotoFunctionModified({ page, url });
+      //
       const lastPageNumber = await scrapLastPageNumber(page);
       //
       const genUrlsArray = genUrls(input.startUrl, lastPageNumber);
       if (genUrlsArray) {
         return genUrlsArray;
+      } else {
+        throw new Error('unable to create a array of urls to download');
       }
     }
   } catch (error) {
@@ -61,18 +73,29 @@ Apify.main(
         : 1000,
       maxConcurrency: input.maxConcurrency ? input.maxConcurrency : 3,
       //
+      // from
+      // https://github.com/VaclavRut/actor-amazon-crawler/blob/master/src/main.js
+      // This page is executed for each request.
+      // Parameter page is Puppeteers page object with loaded page.
+      gotoFunction: async ({ request, page }): Promise<any> => {
+        const url = request.url;
+        return await gotoFunctionModified({ page, url });
+      },
+      //
       launchPuppeteerFunction: async (): Promise<void> =>
         Apify.launchPuppeteer({
-          headless: true,
+          headless: input.headless ? input.headless : false,
           useApifyProxy:
             input.proxyConfiguration && input.proxyConfiguration.useApifyProxy
               ? input.proxyConfiguration.useApifyProxy
               : false,
           userAgent: await Apify.utils.getRandomUserAgent(),
-          liveView: input.liveView ? input.liveView : true
+          liveView: input.liveView ? input.liveView : false
         }),
       //
       handlePageFunction: async ({ page, request }): Promise<void> => {
+        // added delay not to crawl too fast
+        await page.waitFor(Math.floor(Math.random() * 5000) + 1000);
         const pagePosts = await scrapPosts(page);
         const pagePostsFinal = pagePosts.map(
           (post): Post => Object.assign(post, { requestUrl: request.url })
