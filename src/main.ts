@@ -1,4 +1,5 @@
 import Apify from 'apify';
+import { Page, Request, Response } from 'puppeteer';
 
 import genUrls from './gen-urls';
 import scrapLastPageNumber from './scrap-last-page-number';
@@ -6,9 +7,16 @@ import scrapPosts from './scrap-posts';
 
 // https://github.com/apifytech/apify-js/blob/master/src/puppeteer_crawler.js#L9
 // modified version of default
-async function gotoFunctionModified({ page, url }): Promise<any> {
+async function gotoFunctionModified({
+  page,
+  request
+}: {
+  page: Page;
+  request: any;
+}): Promise<Response | null> {
   await Apify.utils.puppeteer.hideWebDriver(page);
-  return await page.goto(url, { timeout: 100000 });
+  // TODO webdesignernews.com wait facebook script too long, need wait only html
+  return await page.goto(request.url, { timeout: 100000 });
 }
 
 /**
@@ -29,8 +37,10 @@ async function genUrlArray(
       const browser = await Apify.launchPuppeteer();
       const page = await browser.newPage();
       //
-      const url = input.startUrl;
-      await gotoFunctionModified({ page, url });
+      const request = await new Apify.Request({
+        url: input.startUrl
+      });
+      await gotoFunctionModified({ page, request });
       //
       const lastPageNumber = await scrapLastPageNumber(page);
       //
@@ -77,9 +87,14 @@ Apify.main(
       // https://github.com/VaclavRut/actor-amazon-crawler/blob/master/src/main.js
       // This page is executed for each request.
       // Parameter page is Puppeteers page object with loaded page.
-      gotoFunction: async ({ request, page }): Promise<any> => {
-        const url = request.url;
-        return await gotoFunctionModified({ page, url });
+      gotoFunction: async ({
+        request,
+        page
+      }: {
+        page: Page;
+        request: Request;
+      }): Promise<Response | null> => {
+        return await gotoFunctionModified({ page, request });
       },
       //
       launchPuppeteerFunction: async (): Promise<void> =>
@@ -93,7 +108,13 @@ Apify.main(
           liveView: input.liveView ? input.liveView : false
         }),
       //
-      handlePageFunction: async ({ page, request }): Promise<void> => {
+      handlePageFunction: async ({
+        page,
+        request
+      }: {
+        page: Page;
+        request: Request;
+      }): Promise<void> => {
         // added delay not to crawl too fast
         await page.waitFor(Math.floor(Math.random() * 5000) + 1000);
         const pagePosts = await scrapPosts(page);
@@ -102,7 +123,11 @@ Apify.main(
         );
         await Apify.pushData(pagePostsFinal);
       },
-      handleFailedRequestFunction: async ({ request }): Promise<void> => {
+      handleFailedRequestFunction: async ({
+        request
+      }: {
+        request: Request;
+      }): Promise<void> => {
         await Apify.pushData({
           '#debug': Apify.utils.createRequestDebugInfo(request)
         });
