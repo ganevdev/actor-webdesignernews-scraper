@@ -4,8 +4,37 @@ import genUrls from './gen-urls';
 import scrapLastPageNumber from './scrap-last-page-number';
 import scrapPosts from './scrap-posts';
 
+/**
+ *  Create urls from start url
+ *
+ */
+async function genUrlArray(
+  input: Input
+): Promise<{ url: string }[] | undefined> {
+  try {
+    if (input.wayToScrape && input.wayToScrape === 'new') {
+      const genUrlsArray = genUrls(input.startUrl);
+      if (genUrlsArray) {
+        return genUrlsArray;
+      }
+    } else {
+      // we do not know which page is the last one - so we need to take this information from the start url page
+      const browser = await Apify.launchPuppeteer();
+      const page = await browser.newPage();
+      await page.goto(input.startUrl);
+      const lastPageNumber = await scrapLastPageNumber(page);
+      //
+      const genUrlsArray = genUrls(input.startUrl, lastPageNumber);
+      if (genUrlsArray) {
+        return genUrlsArray;
+      }
+    }
+  } catch (error) {
+    throw new Error(error);
+  }
+}
+
 Apify.main(
-  /* eslint-disable sonarjs/cognitive-complexity */
   async (): Promise<void> => {
     const input = await Apify.getValue('INPUT');
     //
@@ -13,33 +42,6 @@ Apify.main(
       throw new Error('Attribute startUrl missing in input.');
     if (typeof input.startUrl !== 'string') {
       throw new TypeError('input.startUrl must an string!');
-    }
-    //
-    // Create urls from start url
-    async function genUrlArray(
-      input: Input
-    ): Promise<{ url: string }[] | undefined> {
-      try {
-        if (input.wayToScrape && input.wayToScrape === 'new') {
-          const genUrlsArray = genUrls(input.startUrl);
-          if (genUrlsArray) {
-            return genUrlsArray;
-          }
-        } else {
-          // we do not know which page is the last one - so we need to take this information from the start url page
-          const browser = await Apify.launchPuppeteer();
-          const page = await browser.newPage();
-          await page.goto(input.startUrl);
-          const lastPageNumber = await scrapLastPageNumber(page);
-          //
-          const genUrlsArray = genUrls(input.startUrl, lastPageNumber);
-          if (genUrlsArray) {
-            return genUrlsArray;
-          }
-        }
-      } catch (error) {
-        throw new Error(error);
-      }
     }
 
     const urlArray = await genUrlArray(input);
