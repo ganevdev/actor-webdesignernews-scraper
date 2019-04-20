@@ -62,9 +62,10 @@ Apify.main(
       launchPuppeteerFunction: async (): Promise<void> =>
         Apify.launchPuppeteer({
           headless: true,
-          useApifyProxy: input.proxyConfiguration.useApifyProxy
-            ? input.proxyConfiguration.useApifyProxy
-            : false,
+          useApifyProxy:
+            input.proxyConfiguration && input.proxyConfiguration.useApifyProxy
+              ? input.proxyConfiguration.useApifyProxy
+              : false,
           userAgent: await Apify.utils.getRandomUserAgent(),
           liveView: input.liveView ? input.liveView : true
         }),
