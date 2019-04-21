@@ -119,7 +119,7 @@ Apify.main(
       maxRequestRetries: input.maxRequestRetries ? input.maxRequestRetries : 3,
       maxRequestsPerCrawl: input.maxRequestsPerCrawl
         ? input.maxRequestsPerCrawl
-        : 1000,
+        : 100,
       maxConcurrency: input.maxConcurrency ? input.maxConcurrency : 3,
       //
       // from

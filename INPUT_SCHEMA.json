@@ -35,8 +35,8 @@
       "title": "Max requests per crawl",
       "type": "integer",
       "description": "RequestsPerCrawl",
-      "minimum": 0,
-      "default": 1000,
+      "minimum": 1,
+      "default": 100,
       "unit": "requests per crawl"
     },
     "maxRequestRetries": {
