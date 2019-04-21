@@ -1,22 +1,55 @@
 import Apify from 'apify';
-import { Page, Request, Response } from 'puppeteer';
+import { Page } from 'puppeteer';
 
 import genUrls from './gen-urls';
 import scrapLastPageNumber from './scrap-last-page-number';
 import scrapPosts from './scrap-posts';
 
-// https://github.com/apifytech/apify-js/blob/master/src/puppeteer_crawler.js#L9
-// modified version of default
+/**
+ *
+ * Modified version of default apify gotoFunction
+ * https://github.com/apifytech/apify-js/blob/master/src/puppeteer_crawler.js#L9
+ */
 async function gotoFunctionModified({
   page,
   request
 }: {
   page: Page;
   request: any;
-}): Promise<Response | null> {
+}): Promise<void> {
+  // setRequestInterception - wish this we can ignore some content on page
+  // https://pptr.dev/#?product=Puppeteer&version=v1.14.0&show=api-pagesetrequestinterceptionvalue
+  await page.setRequestInterception(true);
+  //
+  page.on(
+    'request',
+    (intercepted): void => {
+      const ignoredTypes = [
+        'stylesheet',
+        'image',
+        'media',
+        'font',
+        'script',
+        'texttrack',
+        'xhr',
+        'fetch',
+        'eventsource',
+        'websocket',
+        'manifest',
+        'other'
+      ];
+      const resourceType = intercepted.resourceType();
+      if (ignoredTypes.includes(resourceType)) {
+        intercepted.abort();
+      } else {
+        intercepted.continue();
+      }
+    }
+  );
   await Apify.utils.puppeteer.hideWebDriver(page);
-  // TODO webdesignernews.com wait facebook script too long, need wait only html
-  return await page.goto(request.url, { timeout: 100000 });
+  const userAgent = Apify.utils.getRandomUserAgent();
+  await page.setUserAgent(userAgent);
+  await page.goto(request.url, { timeout: 100000 });
 }
 
 /**
@@ -65,6 +98,8 @@ Apify.main(
     if (typeof input.startUrl !== 'string') {
       throw new TypeError('input.startUrl must an string!');
     }
+    if (!/.*webdesignernews\.com.*/.test(input.startUrl))
+      throw new Error('input.startUrl not a webdesignernews.com !');
 
     const urlArray = await genUrlArray(input);
     if (!urlArray)
@@ -92,9 +127,9 @@ Apify.main(
         page
       }: {
         page: Page;
-        request: Request;
-      }): Promise<Response | null> => {
-        return await gotoFunctionModified({ page, request });
+        request: any;
+      }): Promise<void> => {
+        await gotoFunctionModified({ page, request });
       },
       //
       launchPuppeteerFunction: async (): Promise<void> =>
@@ -113,7 +148,7 @@ Apify.main(
         request
       }: {
         page: Page;
-        request: Request;
+        request: any;
       }): Promise<void> => {
         // added delay not to crawl too fast
         await page.waitFor(Math.floor(Math.random() * 5000) + 1000);
@@ -123,11 +158,7 @@ Apify.main(
         );
         await Apify.pushData(pagePostsFinal);
       },
-      handleFailedRequestFunction: async ({
-        request
-      }: {
-        request: Request;
-      }): Promise<void> => {
+      handleFailedRequestFunction: async ({ request }): Promise<void> => {
         await Apify.pushData({
           '#debug': Apify.utils.createRequestDebugInfo(request)
         });
