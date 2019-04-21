@@ -1,7 +1,5 @@
 # Web Designer News - Scraper
 
-[![Build Status](https://travis-ci.com/Ganevru/actor-webdesignernews-scraper.svg?branch=master)](https://travis-ci.com/Ganevru/actor-webdesignernews-scraper)
-
 Scraper for www.webdesignernews.com, using Apify.
 
 ## Input settings
@@ -9,6 +7,12 @@ Scraper for www.webdesignernews.com, using Apify.
 Only `startUrl` required, for example this could be the main page: `https://www.webdesignernews.com`, some of the pagination pages: `https://www.webdesignernews.com/page/2` or some specific section: `https://www.webdesignernews.com/category/apps` or `https://www.webdesignernews.com/category/apps/page/3`
 
 `wayToScrape` can be `old` or `new`, by default `old`. If, for example, the starting link is on the third page (`https://webdesignernews.com/page/3` for example), then scraper will scrape third page, fourth page, fifth and so on, until pagination or `maxRequestsPerCrawl` limit ends. But if the `wayToScrape` is `new` - third, second and first pages will be scraped. So you decide which way actor will work.
+
+## Apify use
+
+This actor is published in Apify library: [https://apify.com/ganevru/webdesignernews-scraper](https://apify.com/ganevru/webdesignernews-scraper).
+
+How to run actor in Apify: [how to run section](https://apify.com/ganevru/webdesignernews-scraper?section=how-to-run)
 
 ## Local use
 
