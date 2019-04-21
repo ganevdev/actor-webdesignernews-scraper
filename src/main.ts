@@ -1,4 +1,5 @@
 import Apify from 'apify';
+import normalizeUrl from 'normalize-url';
 import { Page } from 'puppeteer';
 
 import genUrls from './gen-urls';
@@ -91,15 +92,18 @@ async function genUrlArray(
 
 Apify.main(
   async (): Promise<void> => {
-    const input = await Apify.getValue('INPUT');
+    const inputRaw = await Apify.getValue('INPUT');
     //
-    if (!input.startUrl)
+    if (!inputRaw.startUrl)
       throw new Error('Attribute startUrl missing in input.');
-    if (typeof input.startUrl !== 'string') {
+    if (typeof inputRaw.startUrl !== 'string') {
       throw new TypeError('input.startUrl must an string!');
     }
-    if (!/.*webdesignernews\.com.*/.test(input.startUrl))
+    if (!/.*webdesignernews\.com.*/.test(inputRaw.startUrl))
       throw new Error('input.startUrl not a webdesignernews.com !');
+    //
+    const startUrlNorm = normalizeUrl(inputRaw.startUrl, { forceHttps: true });
+    const input = Object.assign(inputRaw, { startUrl: startUrlNorm });
 
     const urlArray = await genUrlArray(input);
     if (!urlArray)

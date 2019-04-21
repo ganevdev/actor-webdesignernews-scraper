@@ -21,7 +21,7 @@
       "description": "Scrape towards older or newer posts. If, for example, the starting link is on the third page, then the scraper will scrape the third page, then the fourth page, fifth and so on. But if the Way To Scrape is Newer, then the third page will be scraped, then the second, and then the first.",
       "default": "old",
       "enum": ["old", "new"],
-      "enumTitles": ["Older", "Newer"]
+      "enumTitles": ["Older =>", "Newer <="]
     },
     "proxyConfiguration": {
       "title": "Proxy configuration",
