@@ -11,11 +11,13 @@
       "prefill": "https://www.webdesignernews.com",
       "default": "https://www.webdesignernews.com",
       "example": "https://www.webdesignernews.com/category/infographics",
-      "editor": "textfield"
+      "editor": "textfield",
+      "pattern": ".*webdesignernews\\.com.*"
     },
     "wayToScrape": {
       "title": "Way to scrape",
       "type": "string",
+      "editor": "select",
       "description": "Scrape towards older or newer posts. If, for example, the starting link is on the third page, then the scraper will scrape the third page, then the fourth page, fifth and so on. But if the Way To Scrape is Newer, then the third page will be scraped, then the second, and then the first.",
       "default": "old",
       "enum": ["old", "new"],
@@ -55,11 +57,13 @@
     },
     "liveView": {
       "title": "Live View",
+      "description": "Live View",
       "type": "boolean",
       "default": false
     },
     "headless": {
       "title": "headless",
+      "description": "headless",
       "type": "boolean",
       "default": true
     }
