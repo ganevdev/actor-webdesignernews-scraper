@@ -1,2 +1,4 @@
-src
+src/__mockData__
+src/__tests__
+
 .npmrc
