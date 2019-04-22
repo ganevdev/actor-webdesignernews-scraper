@@ -33,7 +33,6 @@ examples/biz-website/public/
 examples/blog/public/
 *.un~
 bin/published.js
-dist
 
 # Build Path of Test Fixtures
 test/**/public

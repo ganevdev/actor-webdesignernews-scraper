@@ -12,9 +12,9 @@
   "main": "dist/main.js",
   "types": "dist/main.d.ts",
   "scripts": {
+    "apify-storage-clean": "rimraf apify_storage/datasets && rimraf apify_storage/request_queues",
     "build": "tsc",
     "clean": "rimraf dist",
-    "apify-storage-clean": "rimraf apify_storage/datasets && rimraf apify_storage/request_queues",
     "lint": "eslint --fix \"src/**/*.{ts,tsx,js,jsx}\"",
     "local-start": "npm run clean && npm run build && node dist/main.js",
     "local-start-fresh": "npm run apify-storage-clean && npm run local-start",
@@ -26,7 +26,8 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged && npm run prepublishOnly"
+      "pre-commit": "lint-staged && npm run prepublishOnly",
+      "pre-push": "npm run clean && npm run build"
     }
   },
   "lint-staged": {
@@ -42,8 +43,7 @@
     "apify": "^0.13.4",
     "lodash.max": "^4.0.1",
     "lodash.range": "^3.2.0",
-    "normalize-url": "^4.3.0",
-    "typescript": "^3.4.3"
+    "normalize-url": "^4.3.0"
   },
   "devDependencies": {
     "@babel/preset-env": "^7.4.3",
@@ -75,6 +75,7 @@
     "prettier": "^1.16.4",
     "puppeteer": "^1.14.0",
     "rimraf": "^2.6.3",
-    "ts-node": "^8.0.3"
+    "ts-node": "^8.0.3",
+    "typescript": "^3.4.3"
   }
 }

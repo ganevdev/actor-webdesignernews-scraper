@@ -8,8 +8,6 @@ RUN npm --quiet set progress=false \
   && npm install --only=prod --no-optional \
   && echo "Installed NPM packages:" \
   && npm list \
-  && echo "npm run build (typescript compiler):" \
-  && npm run build \
   && echo "Node.js version:" \
   && node --version \
   && echo "NPM version:" \
