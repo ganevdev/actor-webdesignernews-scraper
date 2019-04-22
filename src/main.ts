@@ -50,7 +50,7 @@ async function gotoFunctionModified({
   await Apify.utils.puppeteer.hideWebDriver(page);
   const userAgent = Apify.utils.getRandomUserAgent();
   await page.setUserAgent(userAgent);
-  await page.goto(request.url, { timeout: 100000 });
+  await page.goto(request.url, { timeout: 101000 });
 }
 
 /**
