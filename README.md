@@ -71,3 +71,27 @@ It will be something like this:
   "requestUrl": "https://webdesignernews.com/page/3"
 }
 ```
+
+```json
+{
+  "title": "Managing Complexity",
+  "vote": 71,
+  "thumb": "https://webdesignernews.s3.amazonaws.com/post_images/2657412/1*RiHC2-4TI3SKYnw4TCSbrg-f33b-140x112.jpeg",
+  "link": "https://www.webdesignernews.com/redirect/id/2657412",
+  "source": "uxdesign.cc",
+  "date": "4 days ago",
+  "requestUrl": "https://webdesignernews.com/page/4"
+}
+```
+
+```json
+{
+  "title": "The Psychology of Pricing",
+  "vote": 111,
+  "thumb": "https://webdesignernews.s3.amazonaws.com/post_images/2659276/price-comparison-old-ug-e5f2-140x112.png",
+  "link": "https://www.webdesignernews.com/redirect/id/2659276",
+  "source": "quicksprout.com",
+  "date": "2 days ago",
+  "requestUrl": "https://webdesignernews.com/page/3"
+}
+```
