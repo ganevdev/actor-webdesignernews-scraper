@@ -1,4 +1,3 @@
-import max from 'lodash.max';
 import { Page } from 'puppeteer';
 
 /**
@@ -21,5 +20,7 @@ export default async function scrapLastPageNumber(
       }
     }
   );
-  return max(paginationAllNumbers);
+  if (paginationAllNumbers) {
+    return Math.max(...paginationAllNumbers);
+  }
 }

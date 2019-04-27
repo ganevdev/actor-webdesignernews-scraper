@@ -40,7 +40,6 @@
   },
   "dependencies": {
     "apify": "^0.13.4",
-    "lodash.max": "^4.0.1",
     "lodash.range": "^3.2.0",
     "normalize-url": "^4.3.0",
     "typescript": "^3.4.3"
